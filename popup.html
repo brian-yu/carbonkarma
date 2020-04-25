@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <style>
       button {
         height: 30px;
@@ -8,20 +15,46 @@
         outline: none;
       }
       body {
+        margin: 10px;
+        font-family: 'Source Sans Pro', sans-serif;
         width: 250px;
-        height: 300px;
+        height: 500px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        /* align-items: center; */
       }
+      /* #details{
+        text
+      } */
       .title {
-          font-size: 1rem;;
+        font-size: 2rem;
       }
     </style>
   </head>
   <body>
-    <h1 class="title">Amazon Carbon Offset</h1>
-    <button id="calculate">Calculate</button>
+    <h1 class="title text-center">Amazon Carbon Offset</h1>
+    <div id="details">
+      <p id="product"></p>
+      <p id="weight"></p>
+      <p id="dimensions"></p>
+      <p id="packaging"></p>
+      <p id="emissions">
+        <div id="emissions-icons" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <p><span id="cars"></span> 🚗</p>
+            </div>
+            <div class="carousel-item">
+              <p><span id="burgers"></span> 🍔</p>
+            </div>
+            <div class="carousel-item">
+              <p><span id="trees"></span> 🌳</p>
+            </div>
+          </div>
+        </div>
+      </p>
+    </div>
+    <script src="quantities.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

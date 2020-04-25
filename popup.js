@@ -1,40 +1,51 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 'use strict';
 
-// let changeColor = document.getElementById('changeColor');
+const product = document.getElementById('product');
+const dimensions = document.getElementById('dimensions');
+const weight = document.getElementById('weight');
+const emissions = document.getElementById('emissions');
+const cars = document.getElementById('cars');
+const burgers = document.getElementById('burgers');
+const trees = document.getElementById('trees');
+const packaging = document.getElementById('packaging');
 
-// chrome.storage.sync.get('color', function(data) {
-//   changeColor.style.backgroundColor = data.color;
-//   changeColor.setAttribute('value', data.color);
-// });
+chrome.storage.local.get(['currentProduct'], function(result) {
+  const currentProduct = result.currentProduct;
+  
+  product.innerText = currentProduct.productName;
 
-// changeColor.onclick = function(element) {
-//   let color = element.target.value;
-//   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-//     chrome.tabs.executeScript(
-//         tabs[0].id,
-//         {code: 'document.body.style.backgroundColor = "' + color + '";'});
-//   });
-// };
+  var parseWeight = currentProduct.shippingWeight;
+  var lbsWeight = Qty(parseWeight);
+  weight.innerText = 'Weight: ' + lbsWeight.to('lb').toPrec('0.5 lb');
+  
+  // SOURCE: https://business.edf.org/insights/green-freight-math-how-to-calculate-emissions-for-a-truck-move/
+  // avg miles * item weight in tons * co2 emission/ton-mile
+  console.log(parseWeight);
+  console.log(lbsWeight);
+  emissions.innerText = 'Emissions: ' + lbsWeight.to('ton')
+                          .mul(Qty('1500 miles'))
+                          .mul(Qty('161.8 gram'))
+                          .div(Qty('1 ton'))
+                          .div(Qty('1 mile'))
+                          + ' CO2';
+
+  dimensions.innerText = currentProduct.productDimensions;
+  const match = currentProduct.productDimensions.match(
+    /(?<length>\d*\.?\d*)\s+x\s+(?<width>\d*\.?\d*)\s+x\s+(?<height>\d*\.?\d*)\s+(?<unit>\w+)/
+  )
+
+  const length = parseFloat(match.groups.length);
+  const width = parseFloat(match.groups.width);
+  const height = parseFloat(match.groups.height);
+  const unit = match.groups.unit;
 
 
+  const surfaceArea = Qty(length, unit)
+                        .mul(Qty(width, unit))
+                        .mul(Qty(height, unit))
+  
+  packaging.innerText = 'Packaging: ' + surfaceArea;
 
-let calculate = document.getElementById('calculate');
-calculate.onclick = function(element) {
-  var aTags = document.getElementsByTagName("th");
-  var searchText = "Shipping Weight";
-  var found;
+  // SOURCE: 
 
-  for (var i = 0; i < aTags.length; i++) {
-    console.log(aTags[i])
-    if (aTags[i].content.contains(searchText)) {
-      found = aTags[i];
-      break;
-    }
-  }
-
-  console.log(found)
-};
+});

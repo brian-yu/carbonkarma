@@ -1,7 +1,7 @@
 {
-  "name": "Getting Started Example",
+  "name": "Save the Amazon",
   "version": "1.0",
-  "description": "Build an Extension!",
+  "description": "Offest Amazon's environmental impact.",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",
   "background": {
@@ -23,5 +23,23 @@
     "48": "images/get_started48.png",
     "128": "images/get_started128.png"
   },
+  "content_scripts": [
+    {
+      "matches": ["https://www.amazon.com/gp/cart/*"],
+      "css": ["amazon_cart.css"],
+      "run_at": "document_idle",
+      "js": ["amazon_cart.js"]
+    },
+    {
+      "matches": [
+        "https://www.amazon.com/*/gp/*",
+        "https://www.amazon.com/gp/*",
+        "https://www.amazon.com/*/dp/*",
+        "https://www.amazon.com/dp/*"
+      ],
+      "run_at": "document_idle",
+      "js": ["amazon_product.js"]
+    }
+  ],
   "manifest_version": 2
 }
