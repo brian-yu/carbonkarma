@@ -19,17 +19,18 @@
         color: #27ae60;
       }
       .id{
-        width: 10%;
+        width: 30px;
       }
       .product{
-        width: 50%;
       }
       .options {
         width: 300px;
-        /* min-width: 20%; */
+      }
+      .carbon {
+        width: 100px;
       }
       .cost {
-        width: 15%;
+        width: 120px;
       }
       .charities .card {
         margin: 0 10px;
@@ -42,18 +43,30 @@
         max-width: 250px;
         margin-top: 5px;
       }
+      .offset {
+        font-size: 2rem;
+      }
     </style>
   </head>
   <body>
-    <div class="container-md">
-      <div class="row text-center d-flex flex-column align-items-center"><h1 class="mt-4 title display-4 mb-5"><i class="fas fa-recycle"></i>&nbsp;CarbonKarma&nbsp;<i class="fas fa-globe-americas"></i></h1></div>
-      <!-- <div id="products"></div> -->
+    <div class="container-md pb-5">
+      <div class="row text-center d-flex flex-column align-items-center">
+        <h1 class="mt-4 title display-4 mb-2"><i class="fas fa-recycle"></i>&nbsp;CarbonKarma&nbsp;<i class="fas fa-globe-americas"></i></h1>
+      </div>
 
+      <div class="row text-center d-flex flex-row justify-content-center mb-3 offset lead">
+        &nbsp;<span id="totalOffset">0.00 kg</span>&nbsp;kg of carbon offset so far
+      </div>
+
+      <div class="row d-flex flex-row justify-content-center">
+        <p><small>Add items to Amazon Cart to see them on the dashboard</small></p>
+      </div>
       <table class="table mb-5">
         <thead>
           <tr class="">
             <th scope="col" class="id">#</th>
             <th scope="col" class="product">Product</th>
+            <th scope="col" class="carbon">Carbon</th>
             <th scope="col" class="cost">Carbon Cost</th>
             <th scope="col" class="options">Options</th>
           </tr>
@@ -64,11 +77,12 @@
           <tr>
             <th scope="row">Total</th>
             <td></td>
-            <td id="total"></td>
+            <td id="totalAmount"></td>
+            <td id="totalCost"></td>
             <td class="">
               <div class="btn-group" role="group">
-                <button type="button" id="markOffset" class="btn btn-success btn-sm">Offset All</button>
-                <button type="button" id="clearCartBtn" class="btn btn-danger btn-sm">Remove All</button>
+                <button type="button" id="offsetCartBtn" class="btn btn-primary">I Donated</button>
+                <button type="button" id="clearCartBtn" class="btn btn-danger">Remove All</button>
               </div>
             </td>
           </tr>
@@ -76,7 +90,7 @@
       </table>
 
       <div class="row d-flex flex-column align-items-center mb-5">
-        <h3 class="lead">Organizations that are helping save the environment</h3>
+        <h3 class="lead">Offset your carbon footprint by donating to these outstanding organizations:</h3>
       </div>
       <div class="w-100 d-flex justify-content-center charities mb-3">
         <div class="card shadow-lg rounded d-flex flex-column align-items-center">

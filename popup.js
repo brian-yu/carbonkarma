@@ -15,7 +15,7 @@ var offsetPrice;
 
 chrome.storage.local.get(['currentProduct'], function(result) {
   const currentProduct = result.currentProduct;
-  console.log(currentProduct)
+  console.log(currentProduct);
   
   product.innerText = currentProduct.productName;
 
@@ -49,10 +49,10 @@ chrome.storage.local.get(['currentProduct'], function(result) {
 
 
   const totalEmissions = Qty(currentProduct.totalEmissions); // in grams
-  if(totalEmissions.lt('10 g')){
-    total.innerText = totalEmissions.toPrec('0.01 g') + ' CO2';
+  if(totalEmissions.lt('10 kg')){
+    total.innerText = totalEmissions.toPrec('0.01 kg') + ' CO2';
   }else{
-    total.innerText = totalEmissions.toPrec('1 g') + ' CO2';
+    total.innerText = totalEmissions.toPrec('1 kg') + ' CO2';
   }
   
 

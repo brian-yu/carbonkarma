@@ -3,7 +3,6 @@
 function clearCart() {
   setProducts([]);
 }
-
 document.getElementById("clearCartBtn").addEventListener('click', clearCart);
 
 function setProducts(productList) {
@@ -14,6 +13,7 @@ function setProducts(productList) {
   products.innerHTML = '';
   let num = 1;
   let totalCost = 0;
+  let totalCarbon = 0;
   for (const product of productList) {
     console.log(product)
     const row = document.createElement('tr');
@@ -22,6 +22,14 @@ function setProducts(productList) {
     idx.innerText = num;
     const name = document.createElement('td');
     name.innerText = product.productName;
+
+    const amount = document.createElement('td');
+    if(product.isUsed){
+      amount.innerText = ((product.totalEmissions.scalar - product.materialEmissions.scalar) / 1000).toFixed(2) + ' kg';
+    } else{
+      amount.innerText = ((product.totalEmissions.scalar - product.materialEmissions.scalar)/1000).toFixed(2) + ' kg';
+    }
+    
     const carbon = document.createElement('td');
     carbon.id = "carbon" + num.toString();
     if(product.isUsed){
@@ -69,10 +77,12 @@ function setProducts(productList) {
     buttons.appendChild(removeBtn);
     row.appendChild(idx);
     row.appendChild(name);
+    row.appendChild(amount);
     row.appendChild(carbon);
     row.appendChild(buttons);
     products.appendChild(row);
     num += 1;
+    totalCarbon += product.totalEmissions.scalar;
     if(product.isUsed){
       totalCost += product.usedOffsetPrice.scalar;
     }else{
@@ -80,7 +90,38 @@ function setProducts(productList) {
     }
     
   }
-  document.getElementById('total').innerText = '$' + Qty(totalCost).toPrec('0.01').scalar;
+  document.getElementById('totalAmount').innerText = (totalCarbon/1000).toFixed(2) + ' kg';
+  document.getElementById('totalCost').innerText = '$' + Qty(totalCost).toPrec('0.01').scalar;
+
+  const offsetElem = document.getElementById('totalOffset');
+
+  // set current total offset on page load
+  chrome.storage.local.get(['totalOffset'], (result) => {
+    const currentOffset = result.totalOffset ? result.totalOffset : 0;
+    offsetElem.innerText = currentOffset.toFixed(2);
+  });
+
+  // update new offset
+  const offsetCart = () => {
+    chrome.storage.local.get(['totalOffset'], function(result) {
+      const currentOffset = result.totalOffset ? result.totalOffset : 0;
+      const newOffset = currentOffset + totalCarbon/1000;
+      offsetElem.innerText = newOffset.toFixed(2);
+      chrome.storage.local.set({totalOffset: newOffset}, function() {
+        setProducts([]);
+      });
+    });
+  }
+
+  let cleared = false;
+  document.getElementById("offsetCartBtn").removeEventListener('click', () => {
+    cleared = true;
+    document.getElementById("offsetCartBtn").addEventListener('click', offsetCart);
+  });
+  if (!cleared) {
+    document.getElementById("offsetCartBtn").addEventListener('click', offsetCart);
+  }
+  
 }
 
 function retrieveAndDisplayProducts() {
