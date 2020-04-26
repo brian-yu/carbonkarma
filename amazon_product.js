@@ -47,15 +47,18 @@ function storeProductInfo() {
     
 
     // some product information is in lists instead of tables
-    details = document.getElementById("detail-bullets");
-    if(!found && details){
-        const listItems = details.getElementsByTagName("li");
+    const listItems = document.getElementsByTagName("li");
+    if(!found){
         for (const item of listItems) {
             if (item.innerText.includes("Shipping Weight")) {
-                weight = item.innerText.match(/.*Weight:\s(.+)\s\(.*/)[1]
+                console.log(item.innerText)
+                weight = item.innerText.match(/.*Weight:\s(\d*\.?\d*\s\w+)/)[1]
             }
             if (item.innerText.includes("Product Dimensions")) {
-                dimensions = item.innerText.match(/.*Dimensions:\s(.+)\s;.*/)[1]
+                console.log(item.innerText)
+                // dimensions = item.innerText.match(
+                //     /(\d*\.?\d*\s+x\s+\d*\.?\d*\s+x\s+\d*\.?\d*\s+x\s+\w+)/)[1]
+                dimensions = item.innerText.split(":")[1]
             }
         }
     }
