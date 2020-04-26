@@ -38,9 +38,19 @@ async function storeProductInfo() {
 
     // TODO: make more robust
     let rawPrice = null;
-    for (const priceElem of document.getElementsByClassName("a-color-price")) {
+    try{
+        var priceElem = document.getElementById('priceblock_saleprice');
         rawPrice = priceElem.innerText;
-        break;
+    }catch{
+        try{
+            var priceElem = document.getElementById('priceblock_ourprice');
+            rawPrice = priceElem.innerText;
+        }catch{
+            for (const priceElem of document.getElementsByClassName("a-color-price")) {
+                rawPrice = priceElem.innerText;
+                break
+            }
+        }
     }
     const price = parseFloat(rawPrice.replace(/\$|,/g, ""))
 

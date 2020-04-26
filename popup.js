@@ -18,10 +18,10 @@ chrome.storage.local.get(['currentProduct'], function(result) {
 
   // Material Emissions
   var materialEmissions = Qty(currentProduct.materialEmissions, 'kg');
-  if(materialEmissions.lt('10 g')){
-    materials.innerText = materialEmissions.toPrec('0.01 g') + ' CO2';
+  if(materialEmissions.lt('10 kg')){
+    materials.innerText = materialEmissions.toPrec('0.01 kg') + ' CO2';
   } else{
-    materials.innerText = materialEmissions.toPrec('1 g') + ' CO2';
+    materials.innerText = materialEmissions.toPrec('1 kg') + ' CO2';
   }
 
   var parseWeight = Qty(currentProduct.shippingWeight);
