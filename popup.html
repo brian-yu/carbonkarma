@@ -24,7 +24,7 @@
         color: #27ae60;
       }
       #emissions-icons span {
-        font-size: 1.1rem;
+        font-size: 0.97rem;
       }
     </style>
   </head>
@@ -50,13 +50,17 @@
                     <th scope="row">Transport</th>
                     <td id="transport"></td>
                 </tr>
+                <tr>
+                    <th scope="row">Total</th>
+                    <td id="total"></td>
+                </tr>
             </tbody>
         </table>
         <!-- <p id="packaging"></p>
         <p id="transport"></p> -->
         <div class="d-flex flex-column align-items-center">
             <p><small>These emissions are equivalent to:</small></p>
-            <p id="emissions-icons">
+            <p id="emissions-icons" class="text-center">
                 <span class="badge badge-light shadow-sm bg-white rounded">
                     <span id="cars"></span>&nbsp;mi&nbsp; &#128663;
                 </span>
@@ -64,10 +68,10 @@
                     <span id="burgers"></span>&nbsp; &#127828;
                 </span>
                 <span class="badge badge-light shadow-sm bg-white rounded">
-                    <span id="trees"></span>&nbsp; &#127795;
+                    <span id="bulb"></span>&nbsp;hr&nbsp;&#128161;
                 </span>
             </p>
-            <!-- <button type="button" class="btn btn-info">Small button</button> -->
+            <button type="button" class="btn btn-info btn-sm mb-3" id="optionsBtn">Open Basket</button>
         </div>
         
     </div>
