@@ -50,7 +50,7 @@
 
       /* Tooltip text */
       .csstooltip .csstooltiptext {
-        visibility: hidden;
+        opacity: 0;
         width: 175px;
         background-color: black;
         color: #fff;
@@ -65,11 +65,13 @@
         z-index: 1;
         top: -25px;
         left: 110%;
+        transition: 0.2s;
       }
 
       /* Show the tooltip text when you mouse over the tooltip container */
       .csstooltip:hover .csstooltiptext {
-        visibility: visible;
+        opacity: 1;
+        transition: 0.2s;
       }
     </style>
   </head>
@@ -96,7 +98,7 @@
                     <th class="emission-subsection" scope="row">
                       <div class="csstooltip">
                         Packaging
-                        <span class="csstooltiptext">Reduce this by buying local and using recycled paper</span>
+                        <span class="csstooltiptext">Reduce this by buying local and using recycled paper products</span>
                       </div>
                     </th>
                     <td class="emission-subsection-value" id="packaging"></td>
