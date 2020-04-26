@@ -11,13 +11,16 @@ const packaging = document.getElementById('packaging');
 const total = document.getElementById('total');
 const offset = document.getElementById('offset');
 
+var offsetPrice;
+
 chrome.storage.local.get(['currentProduct'], function(result) {
   const currentProduct = result.currentProduct;
+  console.log(currentProduct)
   
   product.innerText = currentProduct.productName;
 
   // Material Emissions
-  var materialEmissions = Qty(currentProduct.materialEmissions, 'kg');
+  var materialEmissions = Qty(currentProduct.materialEmissions);
   if(materialEmissions.lt('10 kg')){
     materials.innerText = materialEmissions.toPrec('0.01 kg') + ' CO2';
   } else{
@@ -29,40 +32,15 @@ chrome.storage.local.get(['currentProduct'], function(result) {
   
   // SOURCE: https://business.edf.org/insights/green-freight-math-how-to-calculate-emissions-for-a-truck-move/
   // avg miles * item weight in tons * co2 emission/ton-mile
-  console.log(parseWeight);
-  const transportEmissions = parseWeight.to('ton')
-                              .mul(Qty('1500 miles'))
-                              .mul(Qty('161.8 gram'))
-                              .div(Qty('1 ton'))
-                              .div(Qty('1 mile'));
+  console.log('shipping weight: ' + parseWeight);
+  const transportEmissions = Qty(currentProduct.transportEmissions);
   if(transportEmissions.lt('10 g')){
     transport.innerText = transportEmissions.toPrec('0.01 g') + ' CO2';
   } else{
     transport.innerText = transportEmissions.toPrec('1 g') + ' CO2';
   }
 
-  // dimensions.innerText = currentProduct.productDimensions;
-  const match = currentProduct.productDimensions.match(
-    /(?<length>\d*\.?\d*)\s+x\s+(?<width>\d*\.?\d*)\s+x\s+(?<height>\d*\.?\d*)\s+(?<unit>\w+)/
-  )
-  const length = parseFloat(match.groups.length);
-  const width = parseFloat(match.groups.width);
-  const height = parseFloat(match.groups.height);
-  const unit = match.groups.unit;
-
-  const lengthQty = Qty(length, unit).to('m');
-  const widthQty = Qty(width, unit).to('m');
-  const heightQty = Qty(height, unit).to('m');
-  const surfaceArea = lengthQty.mul(widthQty).mul(2)
-                      .add(lengthQty.mul(heightQty).mul(2))
-                      .add(widthQty.mul(heightQty).mul(2))
-  const volume = surfaceArea.mul('4 cm'); // average thickness of cardboard packaging?
-  // SOURCE: https://www.hunker.com/13419984/the-density-of-corrugated-cardboard
-  // density of cardboard: 60 kg/m^3
-  const packagingWeight = volume.mul(Qty('60 kg')).div(Qty('1 m')).div(Qty('1 m')).div(Qty('1 m')).to('lb');
-  // SOURCE: https://www.corrugated.org/carbon-footprint-calculator/
-  // emissions of cardboard: 0.532 lb CO2 / lb cardboard
-  const packagingEmissions = packagingWeight.mul(Qty('0.532 lb')).div(Qty('1 lb')).to('g');
+  const packagingEmissions = Qty(currentProduct.packagingEmissions).mul(Qty('0.532 lb')).div(Qty('1 lb')).to('g');
   if(packagingEmissions.lt('10 g')){
     packaging.innerText = packagingEmissions.toPrec('0.01 g') + ' CO2';
   }else{
@@ -70,7 +48,7 @@ chrome.storage.local.get(['currentProduct'], function(result) {
   }
 
 
-  const totalEmissions = transportEmissions.add(packagingEmissions).add(materialEmissions); // in grams
+  const totalEmissions = Qty(currentProduct.totalEmissions); // in grams
   if(totalEmissions.lt('10 g')){
     total.innerText = totalEmissions.toPrec('0.01 g') + ' CO2';
   }else{
@@ -80,7 +58,7 @@ chrome.storage.local.get(['currentProduct'], function(result) {
 
   // SOURCE: https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
   // 404 grams / mile
-  var carEmissions = totalEmissions.to('grams').div(Qty('404 grams'));
+  var carEmissions = Qty(currentProduct.carEmissions);
   if(carEmissions.lt('10')){
     cars.innerText = carEmissions.toPrec('0.01');
   }else{
@@ -88,7 +66,7 @@ chrome.storage.local.get(['currentProduct'], function(result) {
   }
   // SOURCE: https://www.businessinsider.com/one-hamburger-environment-resources-2015-2
   // 4 pounds / quarter pound burger
-  var burgerEmissions = totalEmissions.to('lb').div(Qty('4 lbs'));
+  var burgerEmissions = Qty(currentProduct.burgerEmissions);
   if(burgerEmissions.lt('10')){
     burgers.innerText = burgerEmissions.toPrec('0.01');
   }else{
@@ -99,7 +77,7 @@ chrome.storage.local.get(['currentProduct'], function(result) {
   // trees.innerText = totalEmissions.to('lb').div(Qty('48 lbs')).toPrec('0.01');
   // SOURCE: 
   // average incandescant lightbulbs produce 13 g of CO2 per hour
-  var bulbEmissions = totalEmissions.to('g').div(Qty('13 g'));
+  var bulbEmissions = Qty(currentProduct.bulbEmissions);
   if(bulbEmissions.lt('10')){
     bulb.innerText = bulbEmissions.toPrec('0.01');
   }else{
@@ -108,8 +86,9 @@ chrome.storage.local.get(['currentProduct'], function(result) {
 
   // SOURCE: https://www.terrapass.com/product/productindividuals-families
   // cost of carbon offset: $0.005 / lb CO2
-  offset.innerText = '$' + totalEmissions.to('lbs').mul('0.005 dollar').div('1 lb').toPrec('0.01 dollar');
-
+  offsetPrice = Qty(currentProduct.offsetPrice);
+  offset.innerText = '$' + offsetPrice;
+  console.log('offset price:' + offsetPrice);
 });
 
 

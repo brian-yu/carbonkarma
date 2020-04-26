@@ -22,12 +22,6 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.amazon.com/gp/cart/*"],
-      "css": ["amazon_cart.css"],
-      "run_at": "document_idle",
-      "js": ["amazon_cart.js"]
-    },
-    {
       "matches": [
         "https://www.amazon.com/*/gp/*",
         "https://www.amazon.com/gp/*",
