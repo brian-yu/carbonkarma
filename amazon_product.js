@@ -220,9 +220,9 @@ async function storeProductInfo() {
     priceElem.appendChild(emissionsCostElem);
     
 
-    const lineItemTable = document.getElementsByClassName('a-lineitem');
+    const lineItemTable = document.getElementsByClassName('a-lineitem')[0];
     const emissionsElem = document.createElement('tr');
-    emissionsElem.innerHTML = `<td class="a-color-secondary a-size-base a-text-right a-nowrap">Emissions:</td> <td class="a-span12 a-color-price a-size-base"> {totalEmissions} kg of CO2 </td> `;
+    emissionsElem.innerHTML = `<td class="a-color-secondary a-size-base a-text-right a-nowrap">Emissions:</td> <td class="a-span12 a-color-price a-size-base"> ${totalEmissions.toPrec('1 g')} CO2 </td> `;
     lineItemTable.appendChild(emissionsElem);
 }
 
