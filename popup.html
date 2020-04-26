@@ -12,11 +12,12 @@
     <style>
       body {
         font-family: 'Source Sans Pro', sans-serif;
-        width: 300px;
+        width: 320px;
+        padding: 10px;
         /* height: 425px; */
         border: 1px solid rgba(0,0,0,.125);
         border-radius: .25rem;
-        background-color: #f1f2f6;
+        background-color: #f9f9f9;
       }
       .title {
         font-size: 1.5rem;
@@ -26,33 +27,48 @@
       #emissions-icons span {
         font-size: 0.97rem;
       }
+      .product-title {
+        font-size: 0.75rem;
+        color: #888888;
+      }
+      .emission-subsection {
+        font-size: 1rem;
+        color: #777777;
+      }
+      .emission-subsection-value {
+        /* font-size: 1rem; */
+        color: #666666;
+      }
+      .emission-total-value {
+        font-weight: 600;
+      }
     </style>
   </head>
   <body>
     <div id="details" class="container-fluid">
 
         <h1 class="title text-center my-3"><i class="fas fa-recycle"></i>&nbsp;ReCommerce&nbsp;<i class="fas fa-globe-americas"></i></h1>
-        <p class="lead text-center"><span class="d-inline-block text-truncate" style="max-width: 250px;" id="product"></span></p>
+        <p class="lead text-center"><span class="d-inline-block product-title" id="product"></span></p>
 
         <!-- <p id="weight"></p>
         <p id="dimensions"></p> -->
         <table class="table mb-3">
             <tbody>
                 <tr>
-                    <th scope="row">Materials</th>
-                    <td id="materials"></td>
+                    <th class="emission-subsection" scope="row">Materials</th>
+                    <td class="emission-subsection-value" id="materials"></td>
                 </tr>
                 <tr>
-                    <th scope="row">Packaging</th>
-                    <td id="packaging"></td>
+                    <th class="emission-subsection" scope="row">Packaging</th>
+                    <td class="emission-subsection-value" id="packaging"></td>
                 </tr>
                 <tr>
-                    <th scope="row">Transport</th>
-                    <td id="transport"></td>
+                    <th class="emission-subsection" scope="row">Transport</th>
+                    <td class="emission-subsection-value" id="transport"></td>
                 </tr>
                 <tr>
                     <th scope="row">Total</th>
-                    <td id="total"></td>
+                    <td class="emission-total-value" id="total"></td>
                 </tr>
             </tbody>
         </table>
