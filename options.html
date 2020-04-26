@@ -31,14 +31,25 @@
       .cost {
         width: 15%;
       }
+      .charities .card {
+        margin: 0 10px;
+        max-width: 250px;
+      }
+
+      .charities .card img {
+        height: 70px;
+        width: auto;
+        max-width: 250px;
+        margin-top: 5px;
+      }
     </style>
   </head>
   <body>
     <div class="container-md">
-      <h1 class="mt-4 title display-4">ReCommerce Dashboard</h1>
+      <div class="row text-center d-flex flex-column align-items-center"><h1 class="mt-4 title display-4 mb-5"><i class="fas fa-recycle"></i>&nbsp;ReCommerce&nbsp;<i class="fas fa-globe-americas"></i></h1></div>
       <!-- <div id="products"></div> -->
 
-      <table class="table">
+      <table class="table mb-5">
         <thead>
           <tr class="">
             <th scope="col" class="id">#</th>
@@ -54,15 +65,71 @@
             <th scope="row">Total</th>
             <td></td>
             <td id="total"></td>
-            <td></td>
+            <td><button type="button" id="clearCartBtn" class="btn btn-danger ml-2">Remove All</button></td>
           </tr>
         </tbody>
       </table>
 
-      <div class="w-100 d-flex justify-content-center">
-        <a type="button" target="_blank" href="https://www.coolearth.org/get-involved/donate-cool-earth-usa/" class="btn btn-primary mr-2">Offset Carbon Cost</a>
-        <button type="button" id="clearCartBtn" class="btn btn-danger ml-2">Remove All</button>
+      <div class="w-100 d-flex justify-content-center charities mb-3">
+        <div class="card d-flex flex-column align-items-center">
+          <img src="images/coolearth_logo.svg" class="card-img-top w-75">
+          <div class="card-body text-center d-flex flex-column  justify-content-between">
+            <h5 class="card-title">Cool Earth</h5>
+            <p class="card-text text-left">Cool Earth is a charity that works with local people to halt deforestation and climate change.</p>
+            <a target="_blank" 
+            href="https://www.coolearth.org/get-involved/donate-cool-earth-usa/" class="btn btn-primary">Donate</a>
+          </div>
+        </div>
+        <div class="card d-flex flex-column align-items-center">
+          <img src="images/foe_logo.jpg" class="card-img-top">
+          <div class="card-body text-center d-flex flex-column  justify-content-between">
+            <h5 class="card-title">Friends of Earth</h5>
+            <p class="card-text text-left">Friends of the Earth is a bold voice for justice and the planet.</p>
+            <a target="_blank" 
+            href="https://secure.actblue.com/donate/e_main_testmonth_c3" class="btn btn-primary">Donate</a>
+          </div>
+        </div>
+        <div class="card d-flex flex-column align-items-center">
+          <img src="images/terrapass_logo.png" class="card-img-top">
+          <div class="card-body text-center d-flex flex-column  justify-content-between">
+            <h5 class="card-title">Terrapass</h5>
+            <p class="card-text text-left">Terrapass provides the resources necessary for companies and individuals to understand and take responsibility for their climate impact.</p>
+            <a target="_blank" 
+            href="https://www.terrapass.com/product/productindividuals-families" class="btn btn-primary">Donate</a>
+          </div>
+        </div>
       </div>
+      <div class="w-100 d-flex justify-content-center charities">
+        <div class="card d-flex flex-column align-items-center">
+          <img src="images/350_logo.png" class="card-img-top">
+          <div class="card-body text-center d-flex flex-column  justify-content-between">
+            <h5 class="card-title">350.org</h5>
+            <p class="card-text text-left">350 is building a future that's just, prosperous, equitable and safe from the effects of the climate crisis.</p>
+            <a target="_blank" 
+            href="https://act.350.org/donate/build/" class="btn btn-primary">Donate</a>
+          </div>
+        </div>
+        <div class="card d-flex flex-column align-items-center">
+          <img src="https://1000logos.net/wp-content/uploads/2017/04/National-Geographic-Logo.png" class="card-img-top">
+          <div class="card-body text-center d-flex flex-column  justify-content-between">
+            <h5 class="card-title">National Geographic</h5>
+            <p class="card-text text-left">The National Geographic Society uses the power of science, exploration, education, and storytelling to illuminate and protect the wonder of our world.</p>
+            <a target="_blank" 
+            href="https://give.nationalgeographic.org/page/53299/donate" class="btn btn-primary">Donate</a>
+          </div>
+        </div>
+        <div class="card d-flex flex-column align-items-center">
+          <img src="images/edf_logo.jpg" class="card-img-top">
+          <div class="card-body text-center d-flex flex-column  justify-content-between">
+            <h5 class="card-title">Environmental Defense Fund</h5>
+            <p class="card-text text-left">Our mission is to preserve the natural systems on which all life depends.</p>
+            <a target="_blank" 
+            href="https://membership.onlineaction.org/site/Donation2?df_id=19180&19180.donation=form1&addl_info=nav-button&conversion_pg=www.edf.org%2Four-mission-and-values&_ga=2.7249586.1612541224.1587938148-1950134653.1587836554" class="btn btn-primary">Donate</a>
+          </div>
+        </div>
+      </div>
+      
+      
     </div>
   </body>
   <script src="quantities.js"></script>
