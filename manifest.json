@@ -1,7 +1,7 @@
 {
-  "name": "ReCommerce",
+  "name": "CarbonKarma",
   "version": "1.0",
-  "description": "Learn about Amazon's environmental impact.",
+  "description": "Offset the environmental impact from your Amazon usage.",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",
   "background": {

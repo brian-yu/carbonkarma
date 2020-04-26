@@ -233,7 +233,7 @@ async function storeProductInfo() {
     priceElem.innerText += ' + ';
     console.log('offsetPrice: ' + offsetPrice);
     emissionsCostElem = document.createElement('span');
-    emissionsCostElem.innerText = '$' + offsetPrice.toPrec('0.01 USD').toString().split(' ')[0] + ' carbon cost';
+    emissionsCostElem.innerText = '$' + offsetPrice.toPrec('0.01 USD').scalar + ' carbon cost';
     
     // emissionsCostElem.style.backgroundColor = '#f1f2f6';
     emissionsCostElem.style.color = '#00b894';
