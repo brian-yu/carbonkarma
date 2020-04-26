@@ -50,7 +50,7 @@
 
       /* Tooltip text */
       .csstooltip .csstooltiptext {
-        visibility: hidden;
+        opacity: 0;
         width: 175px;
         background-color: black;
         color: #fff;
@@ -65,11 +65,13 @@
         z-index: 1;
         top: -25px;
         left: 110%;
+        transition: 0.2s;
       }
 
       /* Show the tooltip text when you mouse over the tooltip container */
       .csstooltip:hover .csstooltiptext {
-        visibility: visible;
+        opacity: 1;
+        transition: 0.2s;
       }
     </style>
   </head>
