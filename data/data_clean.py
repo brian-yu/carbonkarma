@@ -17,12 +17,12 @@ import csv
 import json
 
 category_dict = {}
-reader = open("lci_cleaned.csv", "r")
+reader = open("lci.csv", "r")
 csv_reader = csv.reader(reader, quotechar='\'', delimiter=',', quoting=csv.QUOTE_ALL, skipinitialspace=True)
 count = 0
 for row in csv_reader:
     cleaned_text = re.sub(r',', "", row[0]).lower()
-    category = {'text': cleaned_text, 'text_array': cleaned_text.split(' '), 'co2_kg': row[1], 'energy_MJ': row[2], 'water_L': row[3]}
+    category = {'text': cleaned_text, 'co2_kg': float(row[1])}
     category_dict[count] = category
     count += 1
 reader.close()
