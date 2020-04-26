@@ -98,9 +98,14 @@ async function storeProductInfo() {
     const listItems = document.getElementsByTagName("li");
     if(!found){
         for (const item of listItems) {
-            if (item.innerText.includes("Weight")) {
+            if (item.innerText.startsWith("Weight") || 
+                item.innerText.includes("Shipping Weight") || 
+                item.innerText.includes("Item Weight") ||
+                item.innerText.includes("Package Weight")) {
                 console.log(item.innerText)
-                weight = item.innerText.match(/.*Weight:\s(\d*\.?\d*\s\w+)/)[1]
+                match = item.innerText.match(/.*Weight:\s([.|\d]+\s\w+)/)
+                console.log(match)
+                weight = match[1]
             }
             if (item.innerText.includes("Dimensions") ||
                 item.innerText.includes("Size")) {
@@ -189,7 +194,7 @@ async function storeProductInfo() {
     }
 
 
-    totalEmissions = transportEmissions.add(packagingEmissions).add(materialEmissions); // in grams
+    var totalEmissions = transportEmissions.add(packagingEmissions).add(materialEmissions); // in grams
     currentProduct.totalEmissions = totalEmissions;
 
     // SOURCE: https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
@@ -212,8 +217,13 @@ async function storeProductInfo() {
 
     // SOURCE: https://www.terrapass.com/product/productindividuals-families
     // cost of carbon offset: $0.005 / lb CO2
+    var usedEmissions = transportEmissions.add(packagingEmissions);
+    usedOffsetPrice = usedEmissions.to('lbs').mul('0.005 dollar').div('1 lb').toPrec('0.01 dollar');
+    currentProduct.usedOffsetPrice = usedOffsetPrice;
     offsetPrice = totalEmissions.to('lbs').mul('0.005 dollar').div('1 lb').toPrec('0.01 dollar');
     currentProduct.offsetPrice = offsetPrice;
+
+    currentProduct.isUsed = false;
 
     chrome.storage.local.set({currentProduct: currentProduct}, function() {
         console.log(`Stored`);
@@ -223,11 +233,11 @@ async function storeProductInfo() {
     priceElem.innerText += ' + ';
     console.log('offsetPrice: ' + offsetPrice);
     emissionsCostElem = document.createElement('span');
-    emissionsCostElem.innerText = '$' + offsetPrice.toString().split(' ')[0] + ' carbon cost';
+    emissionsCostElem.innerText = '$' + offsetPrice.toPrec('0.01 USD').toString().split(' ')[0] + ' carbon cost';
     
-    emissionsCostElem.style.backgroundColor = '#7bed9f';
-    emissionsCostElem.style.color = '#ff4757';
-    emissionsCostElem.style.padding = '0px 5px';
+    // emissionsCostElem.style.backgroundColor = '#f1f2f6';
+    emissionsCostElem.style.color = '#00b894';
+    // emissionsCostElem.style.padding = '0px 5px';
     priceElem.appendChild(emissionsCostElem);
     
 

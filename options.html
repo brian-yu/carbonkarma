@@ -11,13 +11,60 @@
     <script src="ed3998fccc.js"></script>
 
     <style>
+      body {
+        font-family: 'Source Sans Pro', sans-serif;
+        background-color: #f1f2f6;
+      }
+      .title {
+        color: #27ae60;
+      }
+      .id{
+        width: 10%;
+      }
+      .product{
+        width: 50%;
+      }
+      .options {
+        /* width: 250px; */
+        min-width: 20%;
+      }
+      .cost {
+        width: 15%;
+      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>Your Basket</h1>
-      <div id="products"></div>
+    <div class="container-md">
+      <h1 class="mt-4 title display-4">ReCommerce Dashboard</h1>
+      <!-- <div id="products"></div> -->
+
+      <table class="table">
+        <thead>
+          <tr class="">
+            <th scope="col" class="id">#</th>
+            <th scope="col" class="product">Product</th>
+            <th scope="col" class="cost">Carbon Cost</th>
+            <th scope="col" class="options">Options</th>
+          </tr>
+        </thead>
+        <tbody id="products">
+        </tbody>
+        <tbody>
+          <tr>
+            <th scope="row">Total</th>
+            <td></td>
+            <td id="total"></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="w-100 d-flex justify-content-center">
+        <a type="button" target="_blank" href="https://www.coolearth.org/get-involved/donate-cool-earth-usa/" class="btn btn-primary mr-2">Offset Carbon Cost</a>
+        <button type="button" id="clearCartBtn" class="btn btn-danger ml-2">Remove All</button>
+      </div>
     </div>
   </body>
+  <script src="quantities.js"></script>
   <script src="options.js"></script>
 </html>
