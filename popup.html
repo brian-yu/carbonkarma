@@ -42,6 +42,35 @@
       .emission-total-value {
         font-weight: 600;
       }
+      /* Tooltip container */
+      .csstooltip {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Tooltip text */
+      .csstooltip .csstooltiptext {
+        visibility: hidden;
+        width: 175px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 200;
+      
+        /* Position the tooltip text - see examples below! */
+        position: absolute;
+        z-index: 1;
+        top: -25px;
+        left: 110%;
+      }
+
+      /* Show the tooltip text when you mouse over the tooltip container */
+      .csstooltip:hover .csstooltiptext {
+        visibility: visible;
+      }
     </style>
   </head>
   <body>
@@ -55,15 +84,29 @@
         <table class="table mb-3">
             <tbody>
                 <tr>
-                    <th class="emission-subsection" scope="row">Materials</th>
-                    <td class="emission-subsection-value" id="materials"></td>
+                  <th class="emission-subsection" scope="row">
+                    <div class="csstooltip">
+                      Materials
+                      <span class="csstooltiptext">Reduce this by buying used and refurbished products</span>
+                    </div>
+                  </th>
+                  <td class="emission-subsection-value" id="materials"></td>
                 </tr>
                 <tr>
-                    <th class="emission-subsection" scope="row">Packaging</th>
+                    <th class="emission-subsection" scope="row">
+                      <div class="csstooltip">
+                        Packaging
+                        <span class="csstooltiptext">Reduce this by buying local and using recycled paper</span>
+                      </div>
+                    </th>
                     <td class="emission-subsection-value" id="packaging"></td>
                 </tr>
                 <tr>
-                    <th class="emission-subsection" scope="row">Transport</th>
+                    <th class="emission-subsection" scope="row"><div class="csstooltip">
+                      Transport
+                      <span class="csstooltiptext">Reduce this by buying local and shipping with friends</span>
+                    </div>
+                  </th>
                     <td class="emission-subsection-value" id="transport"></td>
                 </tr>
                 <tr>
