@@ -83,7 +83,7 @@ async function storeProductInfo() {
                     weight = td[0].innerText.split(' ').slice(0,2).join(' ');
                     found = true;
                 }
-                if (text.includes('Product Dimensions')) {
+                if (text.includes('Dimensions')) {
                     dimensions = td[0].innerText;
                     found = true;
                 }
@@ -140,42 +140,53 @@ async function storeProductInfo() {
         });
     })
 
-    var parseWeight = Qty(weight);
-    
-    // SOURCE: https://business.edf.org/insights/green-freight-math-how-to-calculate-emissions-for-a-truck-move/
-    // avg miles * item weight in tons * co2 emission/ton-mile
-    console.log('shipping weight: ' + parseWeight);
-    transportEmissions = parseWeight.to('ton')
-                                .mul(Qty('1500 miles'))
-                                .mul(Qty('161.8 gram'))
-                                .div(Qty('1 ton'))
-                                .div(Qty('1 mile'));
-    currentProduct.transportEmissions = transportEmissions;
     currentProduct.materialEmissions = materialEmissions;
 
-    // packaging emissions
-    const match = currentProduct.productDimensions.match(
-    /(?<length>\d*\.?\d*)\s+x\s+(?<width>\d*\.?\d*)\s+x\s+(?<height>\d*\.?\d*)\s+(?<unit>\w+)/
-    )
-    const length = parseFloat(match.groups.length);
-    const width = parseFloat(match.groups.width);
-    const height = parseFloat(match.groups.height);
-    const unit = match.groups.unit;
 
-    const lengthQty = Qty(length, unit).to('m');
-    const widthQty = Qty(width, unit).to('m');
-    const heightQty = Qty(height, unit).to('m');
-    const surfaceArea = lengthQty.mul(widthQty).mul(2)
-                        .add(lengthQty.mul(heightQty).mul(2))
-                        .add(widthQty.mul(heightQty).mul(2))
-    const volume = surfaceArea.mul('4 cm'); // average thickness of cardboard packaging?
-    // SOURCE: https://www.hunker.com/13419984/the-density-of-corrugated-cardboard
-    // density of cardboard: 60 kg/m^3
-    const packagingWeight = volume.mul(Qty('60 kg')).div(Qty('1 m')).div(Qty('1 m')).div(Qty('1 m')).to('lb');
-    // SOURCE: https://www.corrugated.org/carbon-footprint-calculator/
-    // emissions of cardboard: 0.532 lb CO2 / lb cardboard
-    packagingEmissions = packagingWeight.mul(Qty('0.532 lb')).div(Qty('1 lb')).to('g');
-    currentProduct.packagingEmissions = packagingEmissions;
+    if (currentProduct.shippingWeight) {
+      var parseWeight = Qty(currentProduct.shippingWeight);
+      // SOURCE: https://business.edf.org/insights/green-freight-math-how-to-calculate-emissions-for-a-truck-move/
+      // avg miles * item weight in tons * co2 emission/ton-mile
+      console.log('shipping weight: ' + parseWeight);
+      transportEmissions = parseWeight.to('ton')
+                                  .mul(Qty('1500 miles'))
+                                  .mul(Qty('161.8 gram'))
+                                  .div(Qty('1 ton'))
+                                  .div(Qty('1 mile'));
+      currentProduct.transportEmissions = transportEmissions;
+    } else {
+      transportEmissions = Qty('0 g');
+      currentProduct.transportEmissions = transportEmissions;
+    }
+
+    if (currentProduct.productDimensions) {
+      // packaging emissions
+      const match = currentProduct.productDimensions.match(
+      /(?<length>\d*\.?\d*)\s+x\s+(?<width>\d*\.?\d*)\s+x\s+(?<height>\d*\.?\d*)\s+(?<unit>\w+)/
+      )
+      const length = parseFloat(match.groups.length);
+      const width = parseFloat(match.groups.width);
+      const height = parseFloat(match.groups.height);
+      const unit = match.groups.unit;
+
+      const lengthQty = Qty(length, unit).to('m');
+      const widthQty = Qty(width, unit).to('m');
+      const heightQty = Qty(height, unit).to('m');
+      const surfaceArea = lengthQty.mul(widthQty).mul(2)
+                          .add(lengthQty.mul(heightQty).mul(2))
+                          .add(widthQty.mul(heightQty).mul(2))
+      const volume = surfaceArea.mul('4 cm'); // average thickness of cardboard packaging?
+      // SOURCE: https://www.hunker.com/13419984/the-density-of-corrugated-cardboard
+      // density of cardboard: 60 kg/m^3
+      const packagingWeight = volume.mul(Qty('60 kg')).div(Qty('1 m')).div(Qty('1 m')).div(Qty('1 m')).to('lb');
+      // SOURCE: https://www.corrugated.org/carbon-footprint-calculator/
+      // emissions of cardboard: 0.532 lb CO2 / lb cardboard
+      packagingEmissions = packagingWeight.mul(Qty('0.532 lb')).div(Qty('1 lb')).to('g');
+      currentProduct.packagingEmissions = packagingEmissions;
+    } else {
+      packagingEmissions = Qty('0 g');
+      currentProduct.packagingEmissions = packagingEmissions;
+    }
 
 
     totalEmissions = transportEmissions.add(packagingEmissions).add(materialEmissions); // in grams
