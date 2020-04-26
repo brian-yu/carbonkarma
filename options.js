@@ -55,7 +55,7 @@ function setProducts(productList) {
     }
     
     const removeBtn = document.createElement('button');
-    removeBtn.className = 'btn btn-sm btn-danger ml-1';
+    removeBtn.className = 'btn btn-sm btn-danger';
     removeBtn.addEventListener('click', () => {
       const idx = productList.indexOf(product);
       if (idx > -1) {
