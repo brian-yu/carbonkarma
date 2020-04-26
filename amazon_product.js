@@ -16,13 +16,25 @@ chrome.storage.local.get(['cartProducts'], function(result) {
 });
 
 
-function storeProductInfo() {
+async function storeProductInfo() {
     console.log("AMAZON PRODUCT")
 
     const url = window.location.pathname;
     const id = url.match(/[d|g]p\/(\w+)(\?|$|\/)/)[1];
     const productName = document.getElementById("productTitle").innerText;
+
+    // Get category mapping:
+    var mappingURL = chrome.runtime.getURL("data/mapping.json");
+    const response = await fetch(mappingURL);
+    const mapping = await response.json();
     const productCategory = document.getElementById("nav-subnav").getAttribute("data-category");
+    let co2KgPerDollar = null;
+    if (mapping.hasOwnProperty(productCategory)) {
+        co2KgPerDollar = mapping[productCategory].co2_kg;
+    } else {
+        co2KgPerDollar = mapping["default"].co2_kg;
+    }
+    console.log(co2KgPerDollar)
 
     // TODO: make more robust
     let rawPrice = null;
@@ -32,9 +44,14 @@ function storeProductInfo() {
     }
     const price = parseFloat(rawPrice.replace(/\$|,/g, ""))
 
+    // Calculate Emissions 
+    const materialEmissions = co2KgPerDollar*price;
+
     console.log(`PRODUCT ID: ${id}`);
     console.log(`PRODUCT NAME: ${productName}`);
     console.log(`PRODUCT PRICE: ${price}`);
+    console.log(`PRODUCT CATEGORY: ${productCategory}`);
+    console.log(`PRODUCT EMISSIONS: ${materialEmissions}`);
 
     let weight = null;
     let dimensions = null;
@@ -90,6 +107,7 @@ function storeProductInfo() {
 
     const toStore = {[id]: {
         productName,
+        materialEmissions,
         shippingWeight: weight,
         productDimensions: dimensions,
     }};

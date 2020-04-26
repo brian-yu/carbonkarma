@@ -16,6 +16,14 @@ chrome.storage.local.get(['currentProduct'], function(result) {
   
   product.innerText = currentProduct.productName;
 
+  // Material Emissions
+  var materialEmissions = Qty(currentProduct.materialEmissions, 'kg');
+  if(materialEmissions.lt('10 g')){
+    materials.innerText = materialEmissions.toPrec('0.01 g') + ' CO2';
+  } else{
+    materials.innerText = materialEmissions.toPrec('1 g') + ' CO2';
+  }
+
   var parseWeight = Qty(currentProduct.shippingWeight);
   // weight.innerText = 'Weight: ' + parseWeight.to('lb').toPrec('0.5 lb');
   
@@ -62,7 +70,7 @@ chrome.storage.local.get(['currentProduct'], function(result) {
   }
 
 
-  const totalEmissions = transportEmissions.add(packagingEmissions); // in grams
+  const totalEmissions = transportEmissions.add(packagingEmissions).add(materialEmissions); // in grams
   if(totalEmissions.lt('10 g')){
     total.innerText = totalEmissions.toPrec('0.01 g') + ' CO2';
   }else{
